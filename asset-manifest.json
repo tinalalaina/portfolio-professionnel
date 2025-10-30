@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/myportfolio/static/css/main.636bef43.css",
-    "main.js": "/myportfolio/static/js/main.14d12f7a.js",
-    "static/js/453.3ced6377.chunk.js": "/myportfolio/static/js/453.3ced6377.chunk.js",
-    "static/media/profile.jpg": "/myportfolio/static/media/profile.091ec44381f406b8a4d5.jpg",
-    "static/media/cv_Rakolozafindralaky.pdf": "/myportfolio/static/media/cv_Rakolozafindralaky.a12d0d95f0e46db51cc0.pdf",
-    "index.html": "/myportfolio/index.html",
-    "main.636bef43.css.map": "/myportfolio/static/css/main.636bef43.css.map",
-    "main.14d12f7a.js.map": "/myportfolio/static/js/main.14d12f7a.js.map",
-    "453.3ced6377.chunk.js.map": "/myportfolio/static/js/453.3ced6377.chunk.js.map"
+    "main.css": "/portfolio-professionnel/static/css/main.636bef43.css",
+    "main.js": "/portfolio-professionnel/static/js/main.d5978b44.js",
+    "static/js/453.3ced6377.chunk.js": "/portfolio-professionnel/static/js/453.3ced6377.chunk.js",
+    "static/media/profile.jpg": "/portfolio-professionnel/static/media/profile.091ec44381f406b8a4d5.jpg",
+    "static/media/cv_Rakolozafindralaky.pdf": "/portfolio-professionnel/static/media/cv_Rakolozafindralaky.a12d0d95f0e46db51cc0.pdf",
+    "index.html": "/portfolio-professionnel/index.html",
+    "main.636bef43.css.map": "/portfolio-professionnel/static/css/main.636bef43.css.map",
+    "main.d5978b44.js.map": "/portfolio-professionnel/static/js/main.d5978b44.js.map",
+    "453.3ced6377.chunk.js.map": "/portfolio-professionnel/static/js/453.3ced6377.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.636bef43.css",
-    "static/js/main.14d12f7a.js"
+    "static/js/main.d5978b44.js"
   ]
 }
