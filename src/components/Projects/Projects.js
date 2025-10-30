@@ -3,17 +3,15 @@ import { motion, AnimatePresence } from 'framer-motion';
 import './Projects.css';
 import { FaGithub, FaChevronLeft, FaChevronRight, FaTimes } from 'react-icons/fa';
 
-// Fonction pour importer les images avec gestion d'erreurs
-const importImages = (projectName, imageCount) => {
+// Configuration de base pour les URLs GitHub
+const GITHUB_BASE_URL = 'https://raw.githubusercontent.com/tinalalaina/portfolio-professionnel/main/src/assets/images';
+
+// Fonction pour générer les URLs des images
+const generateImageUrls = (projectName, imageCount) => {
   const images = [];
   for (let i = 1; i <= imageCount; i++) {
-    try {
-      const image = require(`../../assets/images/${projectName}/${i}.jpg`);
-      images.push(image);
-    } catch (error) {
-      console.warn(`Image non trouvée: ${projectName}/${i}.jpg`);
-      // Continue sans cette image
-    }
+    const imageUrl = `${GITHUB_BASE_URL}/${projectName}/${i}.jpg`;
+    images.push(imageUrl);
   }
   return images;
 };
@@ -27,17 +25,16 @@ const Projects = () => {
       id: 1,
       title: 'Application E-commerce',
       description: 'Plateforme e-commerce complète avec panier, paiement et administration.',
-      images: importImages('projet1', 10), // 10 images pour projet1
+      images: generateImageUrls('projet1', 10),
       technologies: ['React', 'Php', 'Mysql', 'Materiel UI'],
       category: 'fullstack',
       github: 'https://github.com/tinalalaina/Certificated',
     },
-    
     {
       id: 2,
       title: 'Application E-commerce',
       description: 'Plateforme e-commerce complète avec panier, paiement et administration.',
-      images: importImages('projet7', 18), // 18 images pour projet5
+      images: generateImageUrls('projet7', 18),
       technologies: ['Angular', 'Postgresql', 'Python'],
       category: 'fullstack',
       github: 'https://github.com/tinalalaina/Ecommerce',
@@ -46,17 +43,17 @@ const Projects = () => {
       id: 3,
       title: 'Plateforme de Portfolio Créatif',
       description: 'Solution de présentation de travaux.',
-      images: importImages('projet2', 12), // 12 images pour projet2
-      technologies:  ['Php', 'Mysql', 'bootsrap'],
+      images: generateImageUrls('projet2', 12),
+      technologies: ['Php', 'Mysql', 'bootsrap'],
       category: 'fullstack',
       github: 'https://github.com/tinalalaina/exercicephp'
     },
-    
+
     {
       id: 4,
       title: 'Application Gestion de produit',
       description: 'Plateforme e-commerce complète avec panier, paiement et administration.',
-      images: importImages('projet6', 13), // 16 images pour projet5
+      images: generateImageUrls('projet6', 13),
       technologies: ['React', 'Php', 'Mysql', 'Materiel UI'],
       category: 'fullstack',
       github: 'https://github.com/tinalalaina/gst',
@@ -65,7 +62,7 @@ const Projects = () => {
       id: 5,
       title: 'Application E-commerce',
       description: 'Plateforme e-commerce complète avec panier, paiement et administration.',
-      images: importImages('projet5', 15), // 15 images pour projet5
+      images: generateImageUrls('projet5', 15),
       technologies: ['React', 'Php', 'MysSQL', 'Bootsrap'],
       category: 'fullstack',
       github: 'https://github.com/tinalalaina/purcase',
@@ -74,7 +71,7 @@ const Projects = () => {
       id: 6,
       title: 'CRUD',
       description: 'Created, Read, Update, Delete , login and logout, authentification',
-      images: importImages('projet4', 9), // 9 images pour projet4
+      images: generateImageUrls('projet4', 9),
       technologies: ['Redux', 'Node.js', 'mysql'],
       category: 'fullstack',
       github: 'https://github.com/tinalalaina/etudiant',
@@ -83,12 +80,12 @@ const Projects = () => {
       id: 7,
       title: 'Application Mobile',
       description: 'Application React Native avec fonctionnalités offline.',
-      images: importImages('projet3', 12), // 12 images pour projet3
+      images: generateImageUrls('projet3', 12),
       technologies: ['React Native', 'Php', 'MySQL'],
       category: 'mobile',
       github: 'https://github.com/tinalalaina/aczone',
     },
-  ].filter(project => project.images.length > 0); // Filtre les projets sans images
+  ];
 
   const openLightbox = (project, index = 0) => {
     setSelectedProject(project);
@@ -142,6 +139,9 @@ const Projects = () => {
                   src={project.images[0]} 
                   alt={project.title}
                   onClick={() => openLightbox(project, 0)}
+                  onError={(e) => {
+                    e.target.src = 'https://via.placeholder.com/400x300?text=Image+Non+Trouvée';
+                  }}
                 />
                 <div className="image-count">
                   {project.images.length} image{project.images.length > 1 ? 's' : ''}
@@ -194,6 +194,9 @@ const Projects = () => {
                   <img 
                     src={selectedProject.images[currentImageIndex]} 
                     alt={`${selectedProject.title} - ${currentImageIndex + 1}`}
+                    onError={(e) => {
+                      e.target.src = 'https://via.placeholder.com/800x600?text=Image+Non+Trouvée';
+                    }}
                   />
                   
                   <button className="nav-btn prev-btn" onClick={prevImage}>
@@ -217,6 +220,9 @@ const Projects = () => {
                         alt={`${selectedProject.title} ${index + 1}`}
                         className={index === currentImageIndex ? 'active' : ''}
                         onClick={() => setCurrentImageIndex(index)}
+                        onError={(e) => {
+                          e.target.src = 'https://via.placeholder.com/100x100?text=!';
+                        }}
                       />
                     ))}
                   </div>
