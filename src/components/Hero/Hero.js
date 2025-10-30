@@ -13,7 +13,7 @@ const Hero = () => {
 
     return (
         <section id="home" className="hero">
-            <div className="container">
+            <div className="hero-container">
                 <div className="hero-content">
                     <motion.div
                         className="hero-text"
@@ -31,13 +31,13 @@ const Hero = () => {
                         </p>
                         <div className="hero-buttons">
                             <button
-                                className="btn"
+                                className="btn primary-btn"
                                 onClick={() => scrollToSection('projects')}
                             >
                                 Voir mes projets
                             </button>
                             <button
-                                className="btn btn-outline"
+                                className="btn secondary-btn"
                                 onClick={() => scrollToSection('contact')}
                             >
                                 Me contacter
@@ -59,14 +59,12 @@ const Hero = () => {
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.8, delay: 0.2 }}
                     >
-                        <div className="image-placeholder">
-                            {/* Remplacez par votre photo */}
-                            <div className="profile-image">
-                                <img
-                                    src={require('../../assets/images/profile.jpg')}
-                                    alt="Votre Nom - Développeur Full Stack"
-                                />
-                            </div>
+                        <div className="profile-image-container">
+                            <img
+                                src={require('../../assets/images/profile.jpg')}
+                                alt="Rakolozafindralaky Tina Lalaina - Développeur Full Stack"
+                                className="profile-img"
+                            />
                         </div>
                     </motion.div>
                 </div>
