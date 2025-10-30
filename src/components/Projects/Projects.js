@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import './Projects.css';
-import { FaGithub, FaChevronLeft, FaChevronRight, FaTimes } from 'react-icons/fa';
+import { FaGithub, FaChevronLeft, FaChevronRight, FaTimes, FaSpinner } from 'react-icons/fa';
 
-// Configuration de base pour les URLs GitHub
-const GITHUB_BASE_URL = 'https://raw.githubusercontent.com/tinalalaina/portfolio-professionnel/main/src/assets/images';
+const GITHUB_BASE_URL = 'https://raw.githubusercontent.com/tinalalaina/myportfolio/refs/heads/main';
 
-// Fonction pour générer les URLs des images
 const generateImageUrls = (projectName, imageCount) => {
   const images = [];
   for (let i = 1; i <= imageCount; i++) {
@@ -16,9 +14,55 @@ const generateImageUrls = (projectName, imageCount) => {
   return images;
 };
 
+// Composant Image avec loading
+const ImageWithLoader = ({ src, alt, onClick, className = '', showThumbnail = false }) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
+
+  const handleLoad = () => {
+    setIsLoading(false);
+  };
+
+  const handleError = () => {
+    setIsLoading(false);
+    setHasError(true);
+  };
+
+  return (
+    <div className={`image-container ${className}`}>
+      {isLoading && (
+        <div className="image-loading">
+          <FaSpinner className="spinner" />
+          <span>Chargement...</span>
+        </div>
+      )}
+      
+      {hasError ? (
+        <div className="image-error">
+          <span>❌ Image non disponible</span>
+        </div>
+      ) : (
+        <img
+          src={src}
+          alt={alt}
+          onClick={onClick}
+          onLoad={handleLoad}
+          onError={handleError}
+          style={{ 
+            display: isLoading ? 'none' : 'block',
+            cursor: onClick ? 'pointer' : 'default'
+          }}
+          className={showThumbnail ? 'thumbnail-img' : ''}
+        />
+      )}
+    </div>
+  );
+};
+
 const Projects = () => {
   const [selectedProject, setSelectedProject] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [lightboxLoading, setLightboxLoading] = useState(true);
 
   const projects = [
     {
@@ -48,7 +92,6 @@ const Projects = () => {
       category: 'fullstack',
       github: 'https://github.com/tinalalaina/exercicephp'
     },
-
     {
       id: 4,
       title: 'Application Gestion de produit',
@@ -90,18 +133,19 @@ const Projects = () => {
   const openLightbox = (project, index = 0) => {
     setSelectedProject(project);
     setCurrentImageIndex(index);
+    setLightboxLoading(true);
   };
 
   const closeLightbox = () => {
     setSelectedProject(null);
     setCurrentImageIndex(0);
+    setLightboxLoading(false);
   };
 
   const nextImage = () => {
     if (selectedProject) {
-      setCurrentImageIndex(prev => 
-        (prev + 1) % selectedProject.images.length
-      );
+      setCurrentImageIndex(prev => (prev + 1) % selectedProject.images.length);
+      setLightboxLoading(true);
     }
   };
 
@@ -110,7 +154,16 @@ const Projects = () => {
       setCurrentImageIndex(prev => 
         prev === 0 ? selectedProject.images.length - 1 : prev - 1
       );
+      setLightboxLoading(true);
     }
+  };
+
+  const handleLightboxImageLoad = () => {
+    setLightboxLoading(false);
+  };
+
+  const handleLightboxImageError = () => {
+    setLightboxLoading(false);
   };
 
   return (
@@ -135,13 +188,11 @@ const Projects = () => {
               transition={{ duration: 0.6, delay: index * 0.1 }}
             >
               <div className="project-image">
-                <img 
+                <ImageWithLoader 
                   src={project.images[0]} 
                   alt={project.title}
                   onClick={() => openLightbox(project, 0)}
-                  onError={(e) => {
-                    e.target.src = 'https://via.placeholder.com/400x300?text=Image+Non+Trouvée';
-                  }}
+                  className="project-main-image"
                 />
                 <div className="image-count">
                   {project.images.length} image{project.images.length > 1 ? 's' : ''}
@@ -191,12 +242,19 @@ const Projects = () => {
                 </button>
                 
                 <div className="lightbox-image">
+                  {lightboxLoading && (
+                    <div className="lightbox-loading">
+                      <FaSpinner className="spinner" />
+                      <span>Chargement de l'image...</span>
+                    </div>
+                  )}
+                  
                   <img 
                     src={selectedProject.images[currentImageIndex]} 
                     alt={`${selectedProject.title} - ${currentImageIndex + 1}`}
-                    onError={(e) => {
-                      e.target.src = 'https://via.placeholder.com/800x600?text=Image+Non+Trouvée';
-                    }}
+                    onLoad={handleLightboxImageLoad}
+                    onError={handleLightboxImageError}
+                    style={{ opacity: lightboxLoading ? 0 : 1 }}
                   />
                   
                   <button className="nav-btn prev-btn" onClick={prevImage}>
@@ -214,16 +272,15 @@ const Projects = () => {
                   
                   <div className="image-thumbnails">
                     {selectedProject.images.map((image, index) => (
-                      <img
-                        key={index}
-                        src={image}
-                        alt={`${selectedProject.title} ${index + 1}`}
-                        className={index === currentImageIndex ? 'active' : ''}
-                        onClick={() => setCurrentImageIndex(index)}
-                        onError={(e) => {
-                          e.target.src = 'https://via.placeholder.com/100x100?text=!';
-                        }}
-                      />
+                      <div key={index} className="thumbnail-container">
+                        <ImageWithLoader 
+                          src={image}
+                          alt={`${selectedProject.title} ${index + 1}`}
+                          className={index === currentImageIndex ? 'active' : ''}
+                          onClick={() => setCurrentImageIndex(index)}
+                          showThumbnail={true}
+                        />
+                      </div>
                     ))}
                   </div>
                 </div>
