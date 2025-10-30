@@ -43,6 +43,10 @@ const About = () => {
                 <h4>3+</h4>
                 <p>Années d'Expérience</p>
               </div>
+              <div className="stat">
+                <h4>100%</h4>
+                <p>Engagement</p>
+              </div>
             </div>
             
             <a href={require('../../assets/documents/cv_Rakolozafindralaky.pdf')} download="cv_Rakolozafindralaky.pdf" className="btn">

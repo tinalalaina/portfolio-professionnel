@@ -1,5 +1,7 @@
 .about {
   background: #f8f9fa;
+  padding: 5rem 0;
+  overflow-x: hidden; /* Empêche le débordement horizontal */
 }
 
 .about-content {
@@ -24,13 +26,13 @@
 .about-stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
+  gap: 1.5rem;
   margin: 2.5rem 0;
 }
 
 .stat {
   text-align: center;
-  padding: 1.5rem;
+  padding: 1.5rem 1rem;
   background: white;
   border-radius: 10px;
   box-shadow: 0 5px 15px rgba(0,0,0,0.1);
@@ -42,7 +44,7 @@
 }
 
 .stat h4 {
-  font-size: 2rem;
+  font-size: 1.8rem;
   color: #667eea;
   margin-bottom: 0.5rem;
 }
@@ -51,6 +53,7 @@
   color: #666;
   font-weight: 500;
   margin: 0;
+  font-size: 0.9rem;
 }
 
 .about-skills {
@@ -94,6 +97,7 @@
   transition: width 1s ease-in-out;
 }
 
+/* Media Queries améliorées */
 @media (max-width: 968px) {
   .about-content {
     grid-template-columns: 1fr;
@@ -104,15 +108,50 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
   }
+  
+  .about-text h3 {
+    font-size: 1.8rem;
+  }
 }
 
 @media (max-width: 768px) {
+  .about {
+    padding: 3rem 0;
+  }
+  
   .about-stats {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
+  }
+  
+  .stat {
+    padding: 1.2rem 0.8rem;
+  }
+  
+  .stat h4 {
+    font-size: 1.5rem;
   }
   
   .about-skills {
     padding: 2rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-stats {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+  }
+  
+  .about-text h3 {
+    font-size: 1.6rem;
+  }
+  
+  .about-text p {
+    font-size: 0.95rem;
+  }
+  
+  .container {
+    padding: 0 1rem;
   }
 }
