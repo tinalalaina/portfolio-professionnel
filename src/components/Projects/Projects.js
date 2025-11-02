@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import './Projects.css';
 import { FaGithub, FaChevronLeft, FaChevronRight, FaTimes, FaSpinner } from 'react-icons/fa';
 
+// CORRECTION : Utilisez le bon nom de repository
 const GITHUB_BASE_URL = 'https://raw.githubusercontent.com/tinalalaina/myportfolio/refs/heads/main';
 
 const generateImageUrls = (projectName, imageCount) => {
@@ -166,6 +167,27 @@ const Projects = () => {
     setLightboxLoading(false);
   };
 
+  // Fermer avec la touche Echap
+  React.useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') {
+        closeLightbox();
+      }
+    };
+
+    if (selectedProject) {
+      document.addEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'hidden'; // Empêcher le scroll
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'unset';
+    };
+  }, [selectedProject]);
+
   return (
     <section id="projects" className="section projects">
       <div className="container">
@@ -235,8 +257,12 @@ const Projects = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
+              onClick={closeLightbox} // Fermer en cliquant sur le fond
             >
-              <div className="lightbox-content">
+              <div 
+                className="lightbox-content"
+                onClick={(e) => e.stopPropagation()} // Empêcher la fermeture en cliquant sur le contenu
+              >
                 <button className="close-btn" onClick={closeLightbox}>
                   <FaTimes />
                 </button>
@@ -277,7 +303,10 @@ const Projects = () => {
                           src={image}
                           alt={`${selectedProject.title} ${index + 1}`}
                           className={index === currentImageIndex ? 'active' : ''}
-                          onClick={() => setCurrentImageIndex(index)}
+                          onClick={() => {
+                            setCurrentImageIndex(index);
+                            setLightboxLoading(true);
+                          }}
                           showThumbnail={true}
                         />
                       </div>
